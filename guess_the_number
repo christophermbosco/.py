@@ -1,0 +1,72 @@
+# GUESS A NUMBER GAME
+
+#import random number
+import random
+
+#ask user for difficulty level
+def difficulty_level():
+    while True:
+        try:
+            level = int(input("Pick a difficulty level (1, 2, or 3): "))
+            if level == 1:
+                return range(1, 11)
+            elif level == 2:
+                return range(1, 101)
+            elif level == 3:
+                return range(1, 1001)
+
+#if user enters invalid input
+            else:
+                print("Invalid input. Please enter 1, 2, or 3.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+#play the game using range of number picked by user via difficulty_level
+def play_game():
+    num_range = difficulty_level()
+    number_guessed = random.randint(num_range.start, num_range.stop - 1)
+    num_guesses = 0
+
+#set max number of guesses to 8//give user hint (too high or too low)
+    while num_guesses < 8:
+        try:
+            guess = int(input("I have my number. What's your guess? "))
+            num_guesses += 1
+            if guess < number_guessed:
+                print("Too low. Guess again.")
+            elif guess > number_guessed:
+                print("Too high. Guess again.")
+            else:
+                print("You got it in", num_guesses, "guesses!")
+                return True
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+#if user guesses wrong number after 8 attempts    
+    print("Better luck next time")
+    return False
+
+#ask user if they want to play the game again
+def play_again():
+    while True:
+        answer = input("Play again? (Y/N) ").upper()
+        if answer == 'Y':
+            return True
+        elif answer == 'N':
+            return False
+        else:
+            print("Invalid input. Please enter Y or N.")
+
+print("Let's play Guess the Number.")
+
+while True:
+    if play_game():
+        if not play_again():
+            break
+    else:
+        if not play_again():
+            break
+
+#if user is done playing, say goodbye
+print("Goodbye!")
+
